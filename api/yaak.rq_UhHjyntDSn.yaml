@@ -1,0 +1,19 @@
+type: http_request
+model: http_request
+id: rq_UhHjyntDSn
+createdAt: 2025-02-22T23:27:35.350828394
+updatedAt: 2025-02-22T23:57:17.896127722
+workspaceId: wk_5MKHqLGods
+folderId: fl_v2uukEdiV6
+authentication:
+  token: ${[ BEARER_TOKEN ]}
+authenticationType: bearer
+body: {}
+bodyType: null
+description: ''
+headers: []
+method: DELETE
+name: Delete File
+sortPriority: 2000.0
+url: ${[ URL ]}/file/:FILE_ID
+urlParameters: []

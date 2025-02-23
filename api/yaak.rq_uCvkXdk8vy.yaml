@@ -1,0 +1,31 @@
+type: http_request
+model: http_request
+id: rq_uCvkXdk8vy
+createdAt: 2025-02-22T23:34:57.277648084
+updatedAt: 2025-02-22T23:57:36.112646246
+workspaceId: wk_5MKHqLGods
+folderId: fl_w5uFfvWgFK
+authentication:
+  token: ${[ BEARER_TOKEN ]}
+authenticationType: bearer
+body: {}
+bodyType: null
+description: ''
+headers: []
+method: PUT
+name: Update Page
+sortPriority: 1000.0
+url: ${[ URL ]}/page/:PAGE_ID
+urlParameters:
+- enabled: true
+  name: :PAGE_ID
+  value: ''
+  id: hX9edFcmcA
+- enabled: true
+  name: deleted
+  value: ''
+  id: i6fIUIyxBC
+- enabled: true
+  name: ''
+  value: ''
+  id: nf4URCM8jn

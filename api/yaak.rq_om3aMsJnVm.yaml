@@ -1,0 +1,27 @@
+type: http_request
+model: http_request
+id: rq_om3aMsJnVm
+createdAt: 2025-02-22T23:23:04.204069896
+updatedAt: 2025-02-22T23:57:15.496301754
+workspaceId: wk_5MKHqLGods
+folderId: fl_v2uukEdiV6
+authentication:
+  token: ${[ BEARER_TOKEN ]}
+authenticationType: bearer
+body: {}
+bodyType: null
+description: ''
+headers: []
+method: POST
+name: Create File
+sortPriority: 0.0
+url: ${[ URL ]}/file/:FILE_ID
+urlParameters:
+- enabled: true
+  name: ''
+  value: ''
+  id: IAhSh0CVrx
+- enabled: true
+  name: ''
+  value: ''
+  id: DhiYP68tQ4

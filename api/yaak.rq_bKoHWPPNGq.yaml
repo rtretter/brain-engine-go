@@ -1,0 +1,23 @@
+type: http_request
+model: http_request
+id: rq_bKoHWPPNGq
+createdAt: 2025-02-22T23:19:52.139918514
+updatedAt: 2025-02-22T23:57:10.832982869
+workspaceId: wk_5MKHqLGods
+folderId: fl_5N5qrUAZjQ
+authentication:
+  token: ${[ BEARER_TOKEN ]}
+authenticationType: bearer
+body: {}
+bodyType: null
+description: ''
+headers: []
+method: GET
+name: Check Auth
+sortPriority: 0.0
+url: ${[ URL ]}/auth
+urlParameters:
+- enabled: true
+  name: ''
+  value: ''
+  id: hIzw5UiPwt

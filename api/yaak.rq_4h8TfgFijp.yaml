@@ -1,0 +1,31 @@
+type: http_request
+model: http_request
+id: rq_4h8TfgFijp
+createdAt: 2025-02-22T23:35:17.900774270
+updatedAt: 2025-02-22T23:57:39.987572088
+workspaceId: wk_5MKHqLGods
+folderId: fl_w5uFfvWgFK
+authentication:
+  token: ${[ BEARER_TOKEN ]}
+authenticationType: bearer
+body: {}
+bodyType: null
+description: ''
+headers: []
+method: DELETE
+name: Delete Page
+sortPriority: 2000.0
+url: ${[ URL ]}/page/:PAGE_ID
+urlParameters:
+- enabled: true
+  name: :PAGE_ID
+  value: ''
+  id: HDZHxrjbWa
+- enabled: true
+  name: deleted
+  value: ''
+  id: 0R2HGXWeaK
+- enabled: true
+  name: ''
+  value: ''
+  id: cdScJ74Z27

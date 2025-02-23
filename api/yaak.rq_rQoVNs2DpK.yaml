@@ -1,0 +1,31 @@
+type: http_request
+model: http_request
+id: rq_rQoVNs2DpK
+createdAt: 2025-02-22T23:28:54.653503524
+updatedAt: 2025-02-22T23:57:16.768923525
+workspaceId: wk_5MKHqLGods
+folderId: fl_v2uukEdiV6
+authentication:
+  token: ${[ BEARER_TOKEN ]}
+authenticationType: bearer
+body: {}
+bodyType: null
+description: ''
+headers: []
+method: PATCH
+name: Rename File
+sortPriority: 1000.0
+url: ${[ URL ]}/file/:FILE_ID
+urlParameters:
+- enabled: true
+  name: :FILE_ID
+  value: ''
+  id: 0iDzftKgJG
+- enabled: true
+  name: newName
+  value: ''
+  id: HqIkTi4j9k
+- enabled: true
+  name: ''
+  value: ''
+  id: HQ3D6Q7kKF

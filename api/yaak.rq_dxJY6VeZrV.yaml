@@ -1,0 +1,19 @@
+type: http_request
+model: http_request
+id: rq_dxJY6VeZrV
+createdAt: 2025-02-22T23:22:51.415629419
+updatedAt: 2025-02-22T23:57:14.146926698
+workspaceId: wk_5MKHqLGods
+folderId: fl_TtSJLbstBt
+authentication:
+  token: ${[ BEARER_TOKEN ]}
+authenticationType: bearer
+body: {}
+bodyType: null
+description: ''
+headers: []
+method: GET
+name: List Files
+sortPriority: -0.0001
+url: ${[ URL ]}/files
+urlParameters: []

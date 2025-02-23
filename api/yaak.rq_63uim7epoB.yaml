@@ -1,0 +1,35 @@
+type: http_request
+model: http_request
+id: rq_63uim7epoB
+createdAt: 2025-02-22T23:34:15.293201489
+updatedAt: 2025-02-22T23:57:31.919367755
+workspaceId: wk_5MKHqLGods
+folderId: fl_w5uFfvWgFK
+authentication:
+  token: ${[ BEARER_TOKEN ]}
+authenticationType: bearer
+body: {}
+bodyType: null
+description: ''
+headers: []
+method: GET
+name: Get Page
+sortPriority: 0.0
+url: ${[ URL ]}/page/:PAGE_ID
+urlParameters:
+- enabled: true
+  name: :PAGE_ID
+  value: ''
+  id: zST4YY2Tfv
+- enabled: true
+  name: owner
+  value: ''
+  id: d6kk0xI9wG
+- enabled: true
+  name: deleted
+  value: ''
+  id: EA3P3SZ3fY
+- enabled: true
+  name: ''
+  value: ''
+  id: i7mU7ZQ5qe
