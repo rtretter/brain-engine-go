@@ -5,9 +5,22 @@ import (
 	"strings"
 )
 
-func randomStringDefaultCharset(minLength int, maxLength int) string {
+func RandomStringDefaultCharset(minLength int, maxLength int) string {
 	alphabet := []rune("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890#+-,.:;><&%$§!()")
-	return randomString(minLength+rand.Intn(maxLength-minLength), alphabet)
+	length := minLength
+	if maxLength > minLength {
+		length += rand.Intn(maxLength - minLength)
+	}
+	return randomString(length, alphabet)
+}
+
+func RandomStringAlphaNumerical(minLength, maxLength int) string {
+	alphabet := []rune("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890")
+	length := minLength
+	if maxLength > minLength {
+		length += rand.Intn(maxLength - minLength)
+	}
+	return randomString(length, alphabet)
 }
 
 func randomString(length int, alphabet []rune) string {

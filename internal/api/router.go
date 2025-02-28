@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/rtretter/brain-engine-go/internal/api/auth"
+	"github.com/rtretter/brain-engine-go/internal/api/page"
 	"github.com/rtretter/brain-engine-go/internal/util"
 )
 
@@ -16,10 +17,14 @@ func SetupRoutes() {
 	}
 
 	authService := auth.NewAuthService(credentials)
+	pageService := page.NewPageService(authService)
 
 	httpMux := http.NewServeMux()
 
 	httpMux.HandleFunc("GET /auth", AuthMiddleware(authService.GetAuth(), authService))
+
+	httpMux.HandleFunc("POST /pages", AuthMiddleware(pageService.CreatePage(), authService))
+	httpMux.HandleFunc("GET /page/{PAGE_ID}", ValidPageIDMiddleware(AuthMiddleware(pageService.GetPage(), authService)))
 
 	http.ListenAndServe(":8080", httpMux)
 }
