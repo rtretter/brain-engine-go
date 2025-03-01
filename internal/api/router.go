@@ -23,6 +23,7 @@ func SetupRoutes() {
 
 	httpMux.HandleFunc("GET /auth", AuthMiddleware(authService.GetAuth(), authService))
 
+	httpMux.HandleFunc("GET /pages", AuthMiddleware(pageService.QueryPages(), authService))
 	httpMux.HandleFunc("POST /pages", AuthMiddleware(pageService.CreatePage(), authService))
 	httpMux.HandleFunc("GET /page/{PAGE_ID}", ValidPageIDMiddleware(AuthMiddleware(pageService.GetPage(), authService)))
 

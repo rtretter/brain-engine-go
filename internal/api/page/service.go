@@ -3,6 +3,7 @@ package page
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/rtretter/brain-engine-go/internal/api/auth"
@@ -21,13 +22,36 @@ func NewPageService(authService auth.AuthService) pageService {
 	}
 }
 
-func (p *pageService) GetPage() http.HandlerFunc {
+func (p *pageService) QueryPages() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		foundCredentials, err := p.authService.GetUserFromAuthorization(r.Header.Get("Authorization"))
+		foundCredentials, _ := p.authService.GetUserFromAuthorization(r.Header.Get("Authorization"))
+		query := r.URL.Query().Get("query")
+		includeDeleted, err := strconv.ParseBool(r.URL.Query().Get("includeDeleted"))
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusUnauthorized)
+			includeDeleted = false
+		}
+		includeUnowned, err := strconv.ParseBool(r.URL.Query().Get("includeUnowned"))
+		if err != nil {
+			includeUnowned = false
+		}
+		err = nil
+		var pages *[]model.Page
+		if includeUnowned {
+			pages, err = util.QueryAllPages(query, includeDeleted)
+		} else {
+			pages, err = util.QueryOwnPages(query, foundCredentials.Username, includeDeleted)
+		}
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
+		json.NewEncoder(w).Encode(pages)
+	}
+}
+
+func (p *pageService) GetPage() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		foundCredentials, _ := p.authService.GetUserFromAuthorization(r.Header.Get("Authorization"))
 		pageId := r.PathValue("PAGE_ID")
 		owner := r.URL.Query().Get("owner")
 		if owner == "" {
@@ -38,28 +62,15 @@ func (p *pageService) GetPage() http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusNotFound)
 			return
 		}
-		responsePage := dto.GetPageResponse{
-			ID:         page.ID,
-			Title:      page.Title,
-			Content:    page.Content,
-			OwnerName:  page.OwnerName,
-			ModifiedAt: page.ModifiedAt,
-			CreatedAt:  page.CreatedAt,
-			IsDeleted:  page.IsDeleted,
-		}
-		json.NewEncoder(w).Encode(responsePage)
+		json.NewEncoder(w).Encode(page)
 	}
 }
 
 func (p *pageService) CreatePage() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		foundCredentials, err := p.authService.GetUserFromAuthorization(r.Header.Get("Authorization"))
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusUnauthorized)
-			return
-		}
+		foundCredentials, _ := p.authService.GetUserFromAuthorization(r.Header.Get("Authorization"))
 		var createRequest dto.CreatePage
-		err = json.NewDecoder(r.Body).Decode(&createRequest)
+		err := json.NewDecoder(r.Body).Decode(&createRequest)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return

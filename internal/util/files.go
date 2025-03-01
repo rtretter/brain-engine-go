@@ -6,13 +6,16 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 
 	authModel "github.com/rtretter/brain-engine-go/internal/api/auth/model"
 	pageModel "github.com/rtretter/brain-engine-go/internal/api/page/model"
 )
 
 const dataPath = "brain/"
-const pagePath = dataPath + "pages/%s/%s/" // DATA_PATH/pages/USERNAME/PAGE_NAME/
+const pagesPath = dataPath + "pages/"    // DATA_PATH/pages/
+const ownedPagesPath = pagesPath + "%s/" // DATA_PATH/pages/USERNAME/
+const pagePath = ownedPagesPath + "%s/"  // DATA_PATH/pages/USERNAME/PAGE_NAME/
 const pageFile = pagePath + "page.json"
 const credentialFile = dataPath + "credentials.json"
 
@@ -33,6 +36,57 @@ func generateCredentials() (*[]authModel.Credentials, error) {
 	}
 	err := saveJson(credentialFile, generatedCredentials)
 	return &generatedCredentials, err
+}
+
+func QueryAllPages(query string, includeDeleted bool) (*[]pageModel.Page, error) {
+	ownerDirs, err := os.ReadDir(pagesPath)
+	if err != nil {
+		return nil, err
+	}
+	var response []pageModel.Page = make([]pageModel.Page, 0)
+	for _, owner := range ownerDirs {
+		ownedPages, err := QueryOwnPages(query, owner.Name(), includeDeleted)
+		if err != nil {
+			continue
+		}
+		response = append(response, *ownedPages...)
+	}
+	return &response, nil
+}
+
+func QueryOwnPages(query, owner string, includeDeleted bool) (*[]pageModel.Page, error) {
+	actualPagesDir := fmt.Sprintf(ownedPagesPath, owner)
+	pageDirs, err := os.ReadDir(actualPagesDir)
+	if err != nil {
+		return nil, err
+	}
+	var response []pageModel.Page = make([]pageModel.Page, 0)
+	appendMatchingPages(pageDirs, query, owner, includeDeleted, &response)
+	return &response, nil
+}
+
+func appendMatchingPages(pageDirs []os.DirEntry, query, owner string, includeDeleted bool, pageResponse *[]pageModel.Page) {
+	for _, e := range pageDirs {
+		if !e.IsDir() {
+			continue
+		}
+		page, err := LoadPage(e.Name(), owner)
+		if err != nil {
+			continue
+		}
+		if page.IsDeleted && !includeDeleted {
+			continue
+		}
+		if strings.Contains(strings.ToLower(page.Title), strings.ToLower(query)) {
+			*pageResponse = append(*pageResponse, *page)
+			continue
+		}
+		if strings.Contains(strings.ToLower(page.Content), strings.ToLower(query)) {
+			*pageResponse = append(*pageResponse, *page)
+			continue
+		}
+	}
+
 }
 
 func LoadPage(pageId, owner string) (*pageModel.Page, error) {
